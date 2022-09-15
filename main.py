@@ -38,6 +38,7 @@ def post(client: str, room_name: str, room_id: str, interval: int = 7) -> list:
 
 
 def anl_html(text):
+
     # 对于网页源代码进行分析
     soup = BeautifulSoup(text, 'html.parser')
     soup_data = soup.find_all('td', width='13%', align='center')
