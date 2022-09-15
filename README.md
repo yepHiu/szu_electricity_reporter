@@ -20,5 +20,5 @@
 该项目只是本人的新手项目，有问题可以指出，欢迎各位大佬提点
 
 ## 感谢
-- @ceynri 前辈之前的项目提供了代码思路  
-- @yarkable 网页源码的爬取的思路来自于前辈的项目
+- [@ceynri](https://github.com/ceynri) 前辈之前的项目提供了代码思路,[参考项目](https://github.com/ceynri/szu-electricity-reporter) 
+- [@yarkable](https://github.com/yarkable) 网页源码的爬取的思路来自于[前辈的项目](https://github.com/yarkable/szu-newsboard-spider)
