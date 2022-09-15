@@ -53,55 +53,36 @@ def anl_html(text):
     date = soup_datetime[1:]
     data = soup_data[3:]
 
-    # 元数据直接提取
-    rest = []
-    for i in range(int(len(data) / 5)):
-        x = i * 5 + 2
-        rest.append(data[x])  # 数组的增加和减少应该去使用原有的关键词
-    charge = []
-    for i in range(int(len(data) / 5)):
-        x = (i - 1) * 5 + 4
-        _charge = round(float(data[x]) - float(data[x - 5]), 2)
-        if _charge > 0:
-            _charge = str(_charge)
-        elif _charge < 0:
-            _charge = 'data cannot reach'
+    buffer = []
+    for i in range(0, len(data), 5):  # 这里需要讲解
+        b = data[i:i + 5]
+        buffer.append(b)
+    data = buffer
+
+    data_table=[]
+    for i in range(int(len(date))):
+        if i ==0:
+            data_table.append({
+                '日期':date[i],
+                '剩余电量':data[i][2],
+                '当日使用':'-',
+                '当日充值':'-'
+            })
         else:
-            _charge = '-'
-        charge.append(_charge)  # 数组的增加和减少应该去使用原有的关键词
+            data_table.append({
+                '日期': date[i],
+                '剩余电量': data[i][2],
+                '当日使用': round(float(data[i][3])-float(data[i-1][3]),2),
+                '当日充值': round(float(data[i][4])-float(data[i-1][4]),2)
+            })
+    table=pt.PrettyTable(['日期','剩余电量','当日使用','当日充值'])
+    for i in range(int(len(date))):
+        table.add_row([data_table[i]['日期'],data_table[i]['剩余电量'],data_table[i]['当日使用'],data_table[i]['当日充值']])
 
-    cost = []
-    for i in range(int(len(data) / 5)):
-        x = (i - 1) * 5 + 3
-        _cost = round(float(data[x]) - float(data[x - 5]), 2)
-        cost.append(_cost)
 
-    table=pt.PrettyTable(['时间','当天使用电量','剩余电量','当日充值'])
-    for i in range(int(len(data)/5)):
-        table.add_row([date[i],cost[i],rest[i],charge[i]])
-
-    # #貌似这个方法不大行
-    # #数据分组
-    # buffer=[]
-    # for i in range(0,len(date),5):#这里需要讲解
-    #     b=data[i:i+5]
-    #     buffer.append(b)
-    # data=buffer
-
-    # 对数据进行再次处理
-
-    # for i in range(13):
-    # cost[i]=data[i][2]
 
     # 测试代码
     print(table)
-    print(rest)
-    print(charge)
-    print(cost)
-    print(data)
-    print(date)
-
-    return soup_data
 
 
 def main():
