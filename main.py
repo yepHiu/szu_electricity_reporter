@@ -135,6 +135,8 @@ def main():
     smtp_server=config['smtp_server']
     email_notice=config['email_notice']
     console_report=config['console_report']
+
+
     #print(email)测试代码
     if room_name == '' or room_id == '':
         print('未配置json文件')
