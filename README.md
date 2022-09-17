@@ -1,4 +1,4 @@
-# szu_electricity_reporter⚡ 
+# **szu_electricity_reporter**⚡ 
 ## 深圳大学宿舍用电查询脚本
 
 ## 简介
