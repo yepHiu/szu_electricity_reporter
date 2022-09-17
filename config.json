@@ -2,5 +2,9 @@
   "room_name": "829",
   "room_id": "7369",
   "client": "192.168.84.87",
-  "interval_day": 14
+  "interval_day": 14,
+  "email": "1062026991@qq.com",
+  "password": "sgopsodgqvycbcgc",
+  "smtp_server": "smtp.qq.com",
+  "port": "25"
 }

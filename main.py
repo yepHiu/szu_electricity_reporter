@@ -3,6 +3,10 @@ import datetime
 from bs4 import BeautifulSoup
 import json
 import prettytable as pt
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+import logging
 
 
 def get_config():
@@ -52,6 +56,8 @@ def anl_html(text):
     for i in range(len(soup_datetime)):
         soup_datetime[i] = soup_datetime[i].strip()
     date = soup_datetime[1:]
+    for i in range(len(date)):# 去除后面无用的消息时间
+        date[i]=date[i][0:date[i].rfind(' ')]#对应字符串截取
     data = soup_data[3:]
 
     buffer = []
@@ -80,12 +86,40 @@ def anl_html(text):
     for i in range(int(len(date))):
         if i !=0:
             table.add_row([data_table[i]['日期'],data_table[i]['剩余电量'],data_table[i]['当日使用'],data_table[i]['当日充值']])
-
+    table.align['剩余电量']='c'
     table_json=table.get_json_string()
     with open('json_str.json','w+') as f:
         f.write(table_json)
     # 测试代码
-    print(table)
+    return table
+
+def email_content(table):
+    send_str='<p>这是昨天的电费账单请查收</p>'
+    notice_html=table.get_html_string()
+    send_str+=notice_html
+    return send_str
+
+
+def send_email(send_str,email,smtp_server,port,password):
+    message=MIMEText(send_str,'html','utf-8')
+    message['From']=Header('宿舍电量提示助手','utf-8').encode()
+    message['To']=Header('管理员','utf-8').encode()
+    message['Subject']=Header('请及时查收','utf-8').encode()
+    server=smtplib.SMTP(smtp_server,port)
+    server.set_debuglevel(1)
+    server.login(email,password=password)
+
+    count = 6
+    while count:
+        try:
+            server.sendmail(email, email,message.as_string())
+            break
+        except Exception as e:
+            logging.error(e)
+            count -= 1
+    server.quit()
+
+
 
 
 def main():
@@ -94,6 +128,11 @@ def main():
     room_id = config['room_id']
     room_name = config['room_name']
     interval_day = config['interval_day']
+    email=config['email']
+    password=config['password']
+    port=config['port']
+    smtp_server=config['smtp_server']
+    #print(email)测试代码
     if room_name == '' or room_id == '':
         print('未配置json文件')
         exit()
@@ -101,7 +140,9 @@ def main():
     if len(html) == 0:
         print('爬取失败')
         exit()
-    anl_html(html)
+    print(anl_html(html))
+    send_str=email_content(anl_html(html))
+    send_email(send_str, email, smtp_server, port, password)
 
 
 if __name__ == '__main__':
