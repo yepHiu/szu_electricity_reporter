@@ -81,8 +81,6 @@ def anl_html(text):
         if i !=0:
             table.add_row([data_table[i]['日期'],data_table[i]['剩余电量'],data_table[i]['当日使用'],data_table[i]['当日充值']])
 
-
-
     # 测试代码
     print(table)
 
