@@ -1,3 +1,5 @@
+import time
+
 import requests
 import datetime
 from bs4 import BeautifulSoup
@@ -139,14 +141,17 @@ def main():
 
     #print(email)测试代码
     if room_name == '' or room_id == '':
-        print('未配置json文件')
+        print('[运行失败],未配置json文件')
         exit()
     html = post(client, room_name, room_id, interval_day)
     if len(html) == 0:
-        print('爬取失败')
+        print('[爬取失败],请检查是否在校内网络下')
         exit()
+    else :
+        print('[爬取成功]')
     if console_report==1:
         print(anl_html(html))
+        print('[电量报告打印完成]')
     if email_notice==1 :
         while True:
             if get_current_hour()=='10':
@@ -159,3 +164,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    time.sleep(60)
+    exit()
