@@ -7,6 +7,6 @@
   "password": "sgopsodgqvycbcgc",
   "smtp_server": "smtp.qq.com",
   "port": "25",
-  "email_notice": 2,
+  "email_notice": 0,
   "console_report": 1
 }
