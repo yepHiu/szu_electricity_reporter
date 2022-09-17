@@ -81,6 +81,9 @@ def anl_html(text):
         if i !=0:
             table.add_row([data_table[i]['日期'],data_table[i]['剩余电量'],data_table[i]['当日使用'],data_table[i]['当日充值']])
 
+    table_json=table.get_json_string()
+    with open('json_str.json','w+') as f:
+        f.write(table_json)
     # 测试代码
     print(table)
 
