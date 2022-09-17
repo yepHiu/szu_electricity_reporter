@@ -120,7 +120,8 @@ def send_email(send_str,email,smtp_server,port,password):
     server.quit()
 
 
-
+def get_current_hour():
+    return str(datetime.datetime.now())[11: 13]
 
 def main():
     config = get_config()
@@ -132,6 +133,8 @@ def main():
     password=config['password']
     port=config['port']
     smtp_server=config['smtp_server']
+    email_notice=config['email_notice']
+    console_report=config['console_report']
     #print(email)测试代码
     if room_name == '' or room_id == '':
         print('未配置json文件')
@@ -140,9 +143,16 @@ def main():
     if len(html) == 0:
         print('爬取失败')
         exit()
-    print(anl_html(html))
-    send_str=email_content(anl_html(html))
-    send_email(send_str, email, smtp_server, port, password)
+    if console_report==1:
+        print(anl_html(html))
+    if email_notice==1 :
+        while True:
+            if get_current_hour()=='10':
+                send_str=email_content(anl_html(html))
+                send_email(send_str, email, smtp_server, port, password)
+    if email_notice==2:
+        send_str = email_content(anl_html(html))
+        send_email(send_str, email, smtp_server, port, password)
 
 
 if __name__ == '__main__':

@@ -6,5 +6,7 @@
   "email": "1062026991@qq.com",
   "password": "sgopsodgqvycbcgc",
   "smtp_server": "smtp.qq.com",
-  "port": "25"
+  "port": "25",
+  "email_notice": 2,
+  "console_report": 1
 }
